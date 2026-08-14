@@ -2,6 +2,13 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use Illuminate\Http\Request;
+
+// Page d'accueil
+Route::get('/', function (Request $request) {
+    $locale = $request->getPreferredLanguage(['fr', 'en', 'de']);
+    return redirect("/{$locale}");
+});
 
 Route::group([
     'prefix' => LaravelLocalization::setLocale(),
