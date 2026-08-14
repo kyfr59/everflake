@@ -18,7 +18,15 @@ export default defineConfig({
     ],
     server: {
         watch: {
+            usePolling: true,
+            interval: 100,
             ignored: ['**/storage/framework/views/**'],
         },
+        host: process.env.DDEV_HOSTNAME,
+        port: 5173,
+        hmr: {
+            host: process.env.DDEV_HOSTNAME,
+            protocol: 'ws'
+        }
     },
 });
