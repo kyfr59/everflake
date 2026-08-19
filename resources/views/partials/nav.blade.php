@@ -3,7 +3,7 @@
 
         {{-- Logo --}}
         <div class="shrink-0 mt-2">
-            <a href="{{ url(app()->getLocale()) }}" class="scroll-link inline-block">
+            <a href="{{ url(app()->getLocale()) }}" class="inline-block">
                 <img
                     width="120"
                     height="90"
@@ -16,10 +16,10 @@
 
         {{-- Menu desktop --}}
         <div class="hidden md:flex gap-8 items-center">
-            <a href="#collection" class="scroll-link font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="collection">Collection</a>
-            <a href="#customize" class="scroll-link font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="customize">Customize</a>
-            <a href="#about" class="scroll-link font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="about">{{ __('messages.about') }}</a>
-            <a href="#contact" class="scroll-link font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="contact">Contact</a>
+            <a href="#collection" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="collection">Collection</a>
+            <a href="#customize" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="customize">Customize</a>
+            <a href="{{ route('about') }}" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('about') }}">{{ __('messages.about') }}</a>
+            <a href="{{ route('contact') }}" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('contact') }}">Contact</a>
         </div>
 
         {{-- Liens de droite --}}
@@ -40,7 +40,7 @@
             </div>
 
             {{-- Panier --}}
-            <button id="cart-btn" aria-label="{{ __('messages.cart_empty') }}" class="scroll-link flex mr-2 relative p-2 lg:-mt-2 {{-- !! --}} text-ef-link-black hover:text-ef-link-red-hover transition-colors cursor-pointer">
+            <button id="cart-btn" aria-label="{{ __('messages.cart_empty') }}" class="flex mr-2 relative p-2 lg:-mt-2 {{-- !! --}} text-ef-link-black hover:text-ef-link-red-hover transition-colors cursor-pointer">
                 <x-icons.cart />
                 {{-- <span id="cart-badge" class="absolute -top-0.5 -right-0.5 bg-[#c8102e] text-white text-[10px] font-mono font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">1</span>--}}
             </button>
@@ -60,10 +60,10 @@
 
     {{-- Menu mobile --}}
     <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-ef-border-grey px-5 py-5 flex-col gap-5 max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-out">
-        <a href="#collection" class="scroll-link block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="collection">Collection</a>
-        <a href="#customize" class="scroll-link block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="customize">Customize</a>
-        <a href="#about" class="scroll-link block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="about">{{ __('messages.about') }}</a>
-        <a href="#contact" class="scroll-link block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="contact">Contact</a>
+        <a href="#collection" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="collection">Collection</a>
+        <a href="#customize" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="customize">Customize</a>
+        <a href="{{ route('about') }}" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('about') }}">{{ __('messages.about') }}</a>
+        <a href="{{ route('contact') }}" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('contact') }}">Contact</a>
 
         <div class="flex items-center gap-4 pt-4 border-t border-ef-border-grey">
             <x-icons.globe class="w-4 h-4 text-gray-400 -mt-2" />
@@ -79,7 +79,7 @@
             @endforeach
         </div>
 
-        <button class="scroll-link w-full bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer text-center">
+        <button class="w-full bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer text-center">
             {{ __('messages.login') }}
         </button>
     </div>
