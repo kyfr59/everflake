@@ -7,7 +7,7 @@
                 <img
                     width="120"
                     height="90"
-                    class="w-[100px] lg:w-[120px] h-auto transition-all duration-200 hover:opacity-80"
+                    class="w-[100px] lg:w-[120px] h-auto transition-all duration-200 hover:opacity-80 mt-2"
                     src="/logo.png"
                     alt="{{ __('messages.baseline') }}"
                 />
@@ -15,7 +15,7 @@
         </div>
 
         {{-- Menu desktop --}}
-        <div class="hidden md:flex gap-8 items-center">
+        <div class="hidden lg:flex gap-8 items-center">
             <a href="#collection" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="collection">Collection</a>
             <a href="#customize" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="customize">Customize</a>
             <a href="{{ route('about') }}" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('about') }}">{{ __('messages.about') }}</a>
@@ -26,7 +26,7 @@
         <div class="flex items-center gap-3">
 
             {{-- Barre de langue --}}
-            <div class="hidden md:flex items-center gap-3 pr-5 border-r border-ef-border-grey">
+            <div class="hidden lg:flex items-center gap-3 pr-5 border-r border-ef-border-grey">
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                     <a
                     href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
@@ -45,21 +45,57 @@
                 {{-- <span id="cart-badge" class="absolute -top-0.5 -right-0.5 bg-[#c8102e] text-white text-[10px] font-mono font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">1</span>--}}
             </button>
 
-            {{-- Se connecter --}}
-            <button class="hidden sm:inline-flex items-center justify-center bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer whitespace-nowrap">
-                {{ __('messages.login') }}
-            </button>
+            {{-- Connexion / déconnexion --}}
+            @auth
+                @include('partials.logout')
+            @else
+                <a href="{{ route('login') }}" class="hidden lg:inline-flex items-center justify-center bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer whitespace-nowrap">
+                    {{ __('messages.login') }}
+                </a>
+            @endauth
+
+            {{-- Menu user --}}
+            @auth
+                <button id="user-burger-btn" class="lg:hidden p-2 cursor-pointer">
+                    <x-icons.user id="burger-menu-close" />
+                    <x-icons.menu-open id="burger-menu-open" class="hidden" />
+                </button>
+            @endauth
 
             {{-- Menu burger --}}
-            <button id="burger-btn" class="md:hidden p-2 cursor-pointer">
-                <x-icons.menu-close id="icon-close" />
-                <x-icons.menu-open id="icon-menu" />
+            <button id="burger-btn" class="lg:hidden p-2 cursor-pointer">
+                <x-icons.menu-close id="menu-close" />
+                <x-icons.menu-open id="menu-open" class="hidden" />
             </button>
         </div>
     </div>
 
+    {{-- Menu user mobile --}}
+    @auth
+        <div id="user-mobile-menu" class="hidden lg:hidden bg-white border-t border-ef-border-grey px-5 py-5 flex-col gap-5 max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-out">
+
+            <div class="border-b border-ef-border-grey pb-4 flex items-center gap-2.5">
+                <x-icons.user />
+                <div class="flex flex-col leading-snug">
+                    <span class="text-sm font-semibold text-ef-black">{{ Auth::user()->name }}</span>
+                    <span class="text-sm text-[#9ca3af]">{{ Auth::user()->email }}</span>
+                </div>
+            </div>
+
+            <a href="{{ route('about') }}" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('about') }}">{{ __('messages.account') }}</a>
+            <a href="{{ route('about') }}" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('contact') }}">{{ __('messages.orders') }}</a>
+
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer text-center">
+                    {{ __('messages.logout') }}
+                </button>
+            </form>
+        </div>
+    @endauth
+
     {{-- Menu mobile --}}
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-ef-border-grey px-5 py-5 flex-col gap-5 max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-out">
+    <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-ef-border-grey px-5 py-5 flex-col gap-5 max-h-0 opacity-0 overflow-hidden transition-all duration-300 ease-out">
         <a href="#collection" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="collection">Collection</a>
         <a href="#customize" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="customize">Customize</a>
         <a href="{{ route('about') }}" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('about') }}">{{ __('messages.about') }}</a>
@@ -79,8 +115,10 @@
             @endforeach
         </div>
 
-        <button class="w-full bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer text-center">
-            {{ __('messages.login') }}
-        </button>
+        @guest
+            <a href="{{ route('login') }}" class="w-full bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer text-center">
+                {{ __('messages.login') }}
+            </a>
+        @endguest
     </div>
 </nav>

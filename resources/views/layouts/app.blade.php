@@ -105,5 +105,6 @@
     <div class="max-w-[1440px] mx-auto bg-white shadow-[0_0_60px_rgba(0,0,0,0.12)] relative overflow-hidden">
         @yield('content')
     </div>
+    @stack('scripts')
 </body>
 </html>

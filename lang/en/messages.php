@@ -6,7 +6,10 @@ return [
     'baseline' => 'Everflake - Your own snowflake',
     'welcome' => 'Welcome to our site',
     'login' => 'Login',
+    'logout' => 'Logout',
     'cart_empty' => 'No items in your cart',
     'about' => 'About',
     'contact_us' => 'Contact us',
+    'account' => 'My account',
+    'orders' => 'My orders',
 ];
