@@ -12,7 +12,7 @@
         >
 
         {{-- SEO --}}
-        <title>@yield('title', config('app.name'))</title>
+        <title>{{ __('messages.title') }}</title>
 
         <meta
             name="description"
@@ -24,8 +24,8 @@
         {{-- Canonical --}}
         <link
             rel="canonical"
-            href="{{ url()->current() }}"
-        >
+            href="{{ LaravelLocalization::getLocalizedURL(app()->getLocale(), null, [], true) }}"
+        />
 
         {{-- Hreflang --}}
         @if (LaravelLocalization::getSupportedLocales())
@@ -80,11 +80,30 @@
             content="@yield('twitter_description', View::getSection('description'))"
         >
 
+        {{-- All languages --}}
+        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+            <link
+                rel="alternate"
+                hreflang="{{ $localeCode }}"
+                href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
+            />
+        @endforeach
+
+        {{-- Default language --}}
+        <link
+            rel="alternate"
+            hreflang="x-default"
+            href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}"
+        />
+
         {{-- Assets --}}
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @fonts
     </head>
 
-<body>
-    @yield('content')
+<body class="bg-ef-site-background">
+    <div class="max-w-[1440px] mx-auto bg-white shadow-[0_0_60px_rgba(0,0,0,0.12)] relative overflow-hidden">
+        @yield('content')
+    </div>
 </body>
 </html>
