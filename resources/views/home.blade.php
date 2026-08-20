@@ -11,6 +11,6 @@
 
     @include('partials.nav')
 
-    <img src="/temp.png" class="w-full" />
+    <img src="{{ asset('images/temp.png') }}" class="w-full" />
 
 @endsection

@@ -12,11 +12,11 @@
         >
 
         {{-- SEO --}}
-        <title>{{ __('messages.title') }}</title>
+        <title>Everflake - @yield('title', __('messages.title'))</title>
 
         <meta
             name="description"
-            content="@yield('description', 'Description de votre site')"
+            content="@yield('description', __('messages.description'))"
         >
 
         <meta name="robots" content="@yield('robots', 'index,follow')">
@@ -26,23 +26,6 @@
             rel="canonical"
             href="{{ LaravelLocalization::getLocalizedURL(app()->getLocale(), null, [], true) }}"
         />
-
-        {{-- Hreflang --}}
-        @if (LaravelLocalization::getSupportedLocales())
-            @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                <link
-                    rel="alternate"
-                    hreflang="{{ $localeCode }}"
-                    href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
-                >
-            @endforeach
-
-            <link
-                rel="alternate"
-                hreflang="x-default"
-                href="{{ LaravelLocalization::getLocalizedURL('fr', null, [], true) }}"
-            >
-        @endif
 
         {{-- Open Graph --}}
         <meta

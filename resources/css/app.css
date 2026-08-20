@@ -5,12 +5,51 @@
 
 @theme {
     --font-sans: "Geist", sans-serif;
+    --color-ef-red: #c8102e;
     --color-ef-site-background: #e8e6e1;
     --color-ef-border-grey: #e5e7eb;
     --color-ef-link-black: #111;
     --color-ef-link-grey: #bbb;
     --color-ef-link-red: #c8102e;
     --color-ef-link-red-hover: #a50d26;
+}
+
+@layer components {
+    .ef-link-black-strong {
+        @apply relative inline-block font-semibold text-ef-link-black
+               transition-colors duration-300;
+    }
+    .ef-link-black-strong:hover {
+        @apply text-ef-link-red;
+    }
+    .ef-link-black-strong::after {
+        content: "";
+        @apply absolute left-0 bottom-0 h-px w-0 bg-ef-link-red
+               transition-all duration-300;
+    }
+    .ef-link-black-strong:hover::after {
+        @apply w-full;
+    }
+    .ef-link-red-light {
+        @apply font-medium text-ef-link-red text-[12px]
+               transition-colors duration-200;
+    }
+    .ef-link-red-light:hover {
+        @apply text-ef-link-red-hover;
+    }
+    .ef-button-red {
+        @apply w-full bg-ef-link-red
+               text-white text-[14px] font-semibold uppercase
+               px-6 py-3 rounded-sm
+               transition-colors cursor-pointer text-center;
+    }
+    .ef-button-red:hover {
+        @apply bg-ef-link-red-hover;
+    }
+    .ef-link-black-light {
+        @apply flex items-center font-medium text-[#111] text-[13px]
+               hover:text-[#444] transition-colors duration-200;
+    }
 }
 
 .lang-btn {

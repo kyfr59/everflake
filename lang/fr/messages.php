@@ -3,7 +3,7 @@
 return [
     'title' => 'Everflake - Votre propre flocon de neige',
     'main_navigation' => 'Navigation principale',
-    'baseline' => 'Everflake - Votre propre flocon de neige',
+    'baseline' => 'Votre propre flocon de neige',
     'welcome' => 'Bienvenue sur notre site',
     'login' => 'Se connecter',
     'logout' => 'Se déconnecter',

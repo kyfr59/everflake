@@ -7,8 +7,8 @@
                 <img
                     width="120"
                     height="90"
-                    class="w-[100px] lg:w-[120px] h-auto transition-all duration-200 hover:opacity-80 mt-2"
-                    src="/logo.png"
+                    class="w-[100px] lg:w-[120px] h-auto transition-all duration-200 hover:opacity-80 mt-1"
+                    src="{{ asset('images/logo.png') }}"
                     alt="{{ __('messages.baseline') }}"
                 />
             </a>
@@ -116,7 +116,7 @@
         </div>
 
         @guest
-            <a href="{{ route('login') }}" class="w-full bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer text-center">
+            <a href="{{ route('login') }}" class="ef-button-red">
                 {{ __('messages.login') }}
             </a>
         @endguest
