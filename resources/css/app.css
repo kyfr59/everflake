@@ -69,3 +69,9 @@
 .lang-btn.active::after {
     @apply scale-x-100;
 }
+
+@media (min-width: 1024px) {
+    .half-page-content {
+        padding-top: 65px;
+    }
+}

@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'title' => 'Everflake - Mot de passe oublié',
+    'description' => 'Réinitialisez votre mot de passe pour retrouver l\'accès à votre espace collectionneur.',
+    'image-alt' => 'Cristal de neige',
+    'baseline' => 'Votre propre flocon de neige',
+    'freeze' => 'L’instant, dans sa forme la plus pure',
+    'freeze-text' => 'Chaque tirage immortalise la géométrie unique d’un cristal de neige capturé dans les Alpes suisses',
+    'temperature' => '−4 à −20 °C',
+    'temperature-text' => 'Température de capture',
+    'altitude' => '500 à 3600 m',
+    'altitude-text' => 'Altitude de capture',
+    'collector_space' => 'Espace collectionneur',
+    'forgot-password' => 'Mot de passe oublié',
+    'forgot-password-text' => 'Indiquez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.',
+    'email' => 'Adresse e-mail',
+    'email-text' => 'Votre adresse e-mail',
+    'send-link' => 'Envoyer le lien de réinitialisation',
+    'remembered' => 'Vous vous souvenez du mot de passe ?',
+    'login-link' => 'Se connecter',
+    'issue' => 'Un problème pour vous connecter ?',
+    'contact-me' => 'Me contacter',
+    'secure' => 'Connexion sécurisée et confidentielle',
+];

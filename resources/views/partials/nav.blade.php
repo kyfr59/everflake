@@ -1,14 +1,14 @@
-<nav class="sticky top-0 z-50 bg-white border-b border-ef-border-grey" aria-label="{{ __('messages.main_navigation') }}">
+<nav class="bg-gray-100 lg:bg-white sticky top-0 z-50 border-b border-gray-300 lg:border-ef-border-grey" aria-label="{{ __('messages.main_navigation') }}">
     <div class="flex h-20 lg:h-26 items-center justify-between px-5 sm:px-10 lg:px-8">
 
         {{-- Logo --}}
         <div class="shrink-0 mt-2">
             <a href="{{ url(app()->getLocale()) }}" class="inline-block">
                 <img
-                    width="120"
-                    height="90"
-                    class="w-[100px] lg:w-[120px] h-auto transition-all duration-200 hover:opacity-80 mt-1"
-                    src="{{ asset('images/logo.png') }}"
+                    width="170"
+                    height="106"
+                    class="w-[100px] lg:w-[120px] h-auto transition-all duration-200 hover:opacity-80"
+                    src="{{ asset('images/logo.avif') }}"
                     alt="{{ __('messages.baseline') }}"
                 />
             </a>

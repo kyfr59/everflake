@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'title' => 'Everflake - Forgot password',
+    'description' => 'Reset your password to regain access to your collector account.',
+    'image-alt' => 'Snow crystal',
+    'baseline' => 'Your very own snowflake',
+    'freeze' => 'The moment, in its purest form',
+    'freeze-text' => 'Each print immortalizes the unique geometry of a snow crystal captured in the Swiss Alps',
+    'temperature' => '−4 to −20 °C',
+    'temperature-text' => 'Capture temperature',
+    'altitude' => '500 to 3600 m',
+    'altitude-text' => 'Capture altitude',
+    'collector_space' => 'Collector space',
+    'forgot-password' => 'Forgot password',
+    'forgot-password-text' => 'Enter your email address and we will send you a link to reset your password.',
+    'email' => 'Email address',
+    'email-text' => 'Your email address',
+    'send-link' => 'Send reset link',
+    'remembered' => 'Remembered your password?',
+    'login-link' => 'Sign in',
+    'issue' => 'Trouble signing in?',
+    'contact-me' => 'Contact me',
+    'secure' => 'Secure and confidential connection',
+];

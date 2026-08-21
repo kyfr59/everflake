@@ -53,8 +53,8 @@
         </div>
 
         {{-- Colonne de droite (formulaire) --}}
-        <div class="flex flex-1 flex-col items-center justify-between bg-white px-6 pt-8 pb-20 lg:px-12 lg:py-10">
-            <div class="w-full lg:max-w-sm flex flex-col gap-8">
+        <div class="half-page-content flex flex-1 flex-col items-center justify-between bg-white p-6">
+                <div class="w-full lg:max-w-sm flex flex-col gap-8">
                 {{-- En-tête du formulaire --}}
                 <div class="flex flex-col gap-3">
                     <div class="flex items-center gap-2">
