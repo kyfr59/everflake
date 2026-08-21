@@ -1,0 +1,57 @@
+{
+  "_fonts-DOJs5dEz.css": {
+    "file": "assets/fonts-DOJs5dEz.css",
+    "src": "_fonts-DOJs5dEz.css"
+  },
+  "_geist-400-normal-B40WzpMT.woff2": {
+    "file": "assets/geist-400-normal-B40WzpMT.woff2",
+    "src": "_geist-400-normal-B40WzpMT.woff2"
+  },
+  "_geist-400-normal-akEymXtG.woff": {
+    "file": "assets/geist-400-normal-akEymXtG.woff",
+    "src": "_geist-400-normal-akEymXtG.woff"
+  },
+  "_geist-500-normal-BDXIbFrL.woff": {
+    "file": "assets/geist-500-normal-BDXIbFrL.woff",
+    "src": "_geist-500-normal-BDXIbFrL.woff"
+  },
+  "_geist-500-normal-CTWBw9NS.woff2": {
+    "file": "assets/geist-500-normal-CTWBw9NS.woff2",
+    "src": "_geist-500-normal-CTWBw9NS.woff2"
+  },
+  "_geist-600-normal-CSETrqM2.woff2": {
+    "file": "assets/geist-600-normal-CSETrqM2.woff2",
+    "src": "_geist-600-normal-CSETrqM2.woff2"
+  },
+  "_geist-600-normal-DsPlZH-9.woff": {
+    "file": "assets/geist-600-normal-DsPlZH-9.woff",
+    "src": "_geist-600-normal-DsPlZH-9.woff"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-DjPib-2j.css",
+    "name": "app",
+    "names": [
+      "app.css"
+    ],
+    "src": "resources/css/app.css",
+    "isEntry": true
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-D4LXzvTm.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/pages/login.js": {
+    "file": "assets/login-BiatgW2i.js",
+    "name": "login",
+    "src": "resources/js/pages/login.js",
+    "isEntry": true
+  },
+  "resources/js/pages/register.js": {
+    "file": "assets/register-BfGwPRV5.js",
+    "name": "register",
+    "src": "resources/js/pages/register.js",
+    "isEntry": true
+  }
+}
