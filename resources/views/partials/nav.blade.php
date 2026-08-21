@@ -63,7 +63,7 @@
             @endauth
 
             {{-- Menu burger --}}
-            <button id="burger-btn" class="lg:hidden p-2 cursor-pointer">
+            <button aria-label="{{ __('messages.open-menu') }}" id="burger-btn" class="lg:hidden p-2 cursor-pointer">
                 <x-icons.menu-close id="menu-close" />
                 <x-icons.menu-open id="menu-open" class="hidden" />
             </button>
@@ -87,7 +87,7 @@
 
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="w-full bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer text-center">
+                <button aria-label="{{ __('messages.logout') }}" type="submit" class="w-full bg-ef-link-red hover:bg-ef-link-red-hover text-white text-[14px] font-semibold uppercase px-6 py-3 rounded-sm transition-colors cursor-pointer text-center">
                     {{ __('messages.logout') }}
                 </button>
             </form>

@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'title' => 'Everflake - Your own snowflake',
+    'title' => 'Your own snowflake',
+    'description' => 'Discover Everflake snow crystals, captured in the Swiss Alps and transformed into unique fine art prints.',
     'main_navigation' => 'Main navigation',
     'baseline' => 'Your own snowflake',
     'welcome' => 'Welcome to our site',
@@ -12,4 +13,5 @@ return [
     'contact_us' => 'Contact us',
     'account' => 'My account',
     'orders' => 'My orders',
+    'open-menu' => 'Open navigation',
 ];

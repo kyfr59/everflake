@@ -1,7 +1,8 @@
 <?php
 
 return [
-    'title' => 'Everflake - Votre propre flocon de neige',
+    'title' => 'Votre propre flocon de neige',
+    'description' => 'Découvrez les cristaux de neige Everflake, capturés dans les Alpes suisses et transformés en tirages d\'art uniques.',
     'main_navigation' => 'Navigation principale',
     'baseline' => 'Votre propre flocon de neige',
     'welcome' => 'Bienvenue sur notre site',

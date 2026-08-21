@@ -13,10 +13,11 @@
     <div class="flex min-h-0">
         <div class="relative hidden lg:flex flex-1 flex-col items-start justify-between p-16">
             <img
-                src="{{ asset('images/login.png') }}"
+                src="{{ asset('images/login.avif') }}"
                 alt="{{ __('login.image-alt') }}"
                 class="absolute inset-0 w-full h-full object-cover"
-            />
+                fetchpriority="high"
+            >
             <div class="absolute inset-0 bg-[rgba(17,17,17,0.35)]"></div>
 
             {{-- Badge atelier --}}
@@ -86,6 +87,8 @@
                             id="email"
                             name="email"
                             type="email"
+                            required
+                            autocomplete="email"
                             value="{{ old('email') }}"
                             placeholder="{{ __('login.email-text') }}"
                             class="w-full rounded-[2px] border px-4 py-3 text-[14px] text-[#111] placeholder:text-[#9ca3af] outline-none transition-colors
@@ -116,6 +119,8 @@
                                 id="password"
                                 name="password"
                                 type="password"
+                                required
+                                autocomplete="current-password"
                                 placeholder="{{ __('login.password-text') }}"
                                 class="w-full rounded-[2px] border px-4 py-3 pr-12 text-[14px] text-[#111] placeholder:text-[#9ca3af] outline-none transition-colors
                                     {{ $errors->has('password')
@@ -126,10 +131,11 @@
                             <button
                                 type="button"
                                 id="toggle-password"
-                                class="absolute right-4 top-1/2 -translate-y-1/2 text-[#6b6b6b]"
-                                aria-label="{{ __('login.show_password') }}"
+                                class="cursor-pointer absolute right-4 top-1/2 -translate-y-1/2 text-[#6b6b6b]"
+                                aria-label="{{ __('login.show-password') }}"
                             >
-                                <x-icons.eye />
+                                <x-icons.eye id="icon-eye" class="block" />
+                                <x-icons.eye-slash id="icon-eye-slash" class="hidden" />
                             </button>
                         </div>
 
@@ -144,6 +150,7 @@
                     <button
                         type="submit"
                         class="ef-button-red mt-5 mb-2"
+                        aria-label="{{ __('login.login') }}"
                     >
                         {{ __('login.login') }}
                     </button>
@@ -158,7 +165,7 @@
                 </form>
 
                 <div class="flex flex-col items-center gap-3 border-t border-[#e5e7eb] pt-6 md:flex-row md:justify-between md:gap-0">
-                    <p class="text-[#9ca3af] text-[13px]">
+                    <p class="text-ef-text-grey text-[13px]">
                         {{ __('login.issue') }}
                     </p>
 
@@ -170,7 +177,7 @@
 
                 <div class="flex items-center gap-2 mt-8">
                     <x-icons.secure />
-                    <span class="text-[#9ca3af] text-[11px] uppercase tracking-wider">
+                    <span class="text-ef-text-grey text-[11px] uppercase tracking-wider">
                         {{ __('login.secure') }}
                     </span>
                 </div>
