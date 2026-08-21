@@ -46,10 +46,10 @@
 
               <a href="{{ route('home') }}">
                 <img
-                  src="{{ asset('images/logo.png') }}"
+                  src="{{ asset('images/logo.avif') }}"
                   alt="Everflake"
-                  width="172"
-                  height="122"
+                  width="170"
+                  height="106"
                   style="display:block; border:0;"
                 />
               </a>

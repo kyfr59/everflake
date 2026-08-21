@@ -27,3 +27,11 @@
 <IfModule mod_headers.c>
     Header set X-Robots-Tag "noindex, nofollow, noarchive, nosnippet"
 </IfModule>
+
+# Protection HTTP uniquement en production
+<If "-f '/homez.2034/ajslxgk/.production'">
+    AuthType Basic
+    AuthName "Accès restreint"
+    AuthUserFile /homez.2034/ajslxgk/.htpasswd
+    Require valid-user
+</If>
