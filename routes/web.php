@@ -4,6 +4,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -21,6 +23,23 @@ Route::group([
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     Route::get('/about', [AboutController::class, 'index'])->name('about');
 
+    Route::resource('products', ProductController::class);
+
+    Route::get('/cart', [CartController::class, 'index'])
+        ->name('cart.index');
+
+    Route::post('/cart/{product}', [CartController::class, 'add'])
+        ->name('cart.add');
+
+    Route::patch('/cart/{item}', [CartController::class, 'update'])
+        ->name('cart.update');
+
+    Route::delete('/cart/{item}', [CartController::class, 'remove'])
+        ->name('cart.remove');
+
+    Route::delete('/cart', [CartController::class, 'clear'])
+        ->name('cart.clear');
+
     Route::get('/dashboard', function () {
         return view('home');
     })->middleware(['auth', 'verified'])->name('dashboard');
@@ -33,3 +52,19 @@ Route::group([
 
     require __DIR__.'/auth.php';
 });
+
+/*
+GET     /products
+GET     /products/create
+POST    /products
+GET     /products/{product}
+GET     /products/{product}/edit
+PUT     /products/{product}
+DELETE  /products/{product}
+
+GET     /cart
+POST    /cart/{product}
+PATCH   /cart/{item}
+DELETE  /cart/{item}
+DELETE  /cart
+*/
