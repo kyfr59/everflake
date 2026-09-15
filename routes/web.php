@@ -40,6 +40,9 @@ Route::group([
     Route::delete('/cart', [CartController::class, 'clear'])
         ->name('cart.clear');
 
+    Route::post('/products/{product}/price', [ProductController::class, 'computePrice'])
+    ->name('products.price');
+
     Route::get('/dashboard', function () {
         return view('home');
     })->middleware(['auth', 'verified'])->name('dashboard');
@@ -49,6 +52,7 @@ Route::group([
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
+
 
     require __DIR__.'/auth.php';
 });

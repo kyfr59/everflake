@@ -44,7 +44,9 @@ class ProductController extends Controller
 
     public function show(Product $product): View
     {
-        return view('products.show', compact('product'));
+        $options = $product->options()->get();
+
+        return view('products.show', compact('product', 'options'));
     }
 
     public function edit(Product $product): View
@@ -82,4 +84,65 @@ class ProductController extends Controller
             ->route('products.index')
             ->with('success', 'Produit supprimé.');
     }
+
+    /**
+     * Calcule le prix en fonction des options choisies (appelé via AJAX).
+     */
+public function computePrice(Request $request, Product $product)
+{
+    $validated = $request->validate([
+        'option_id' => ['nullable', 'integer', 'exists:product_options,id'],
+        'quantity' => ['nullable', 'integer', 'min:1'],
+    ]);
+
+    $quantity = $validated['quantity'] ?? 1;
+
+    $price = $product->price;
+
+    if (!empty($validated['option_id'])) {
+        $option = $product->options()
+            ->where('id', $validated['option_id'])
+            ->first();
+
+        if ($option) {
+            $price += $option->price_modifier;
+        }
+    }
+
+    return response()->json([
+        'total_price' => $price * $quantity,
+    ]);
+}
+
+    /**
+     * Ajoute le produit configuré au panier.
+     */
+    public function addToCart(Request $request, Product $product)
+    {
+        $validated = $request->validate([
+            'size'     => 'required|string',
+            'color'    => 'required|string',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $unitPrice = $product->getPriceWithOptions([
+            'size'  => $validated['size'],
+            'color' => $validated['color'],
+        ]);
+
+        $cart = Cart::query()->firstOrCreate(['user_id' => auth()->id()]);
+
+        $cart->storeItem([
+            'itemable' => $product,
+            'quantity' => $validated['quantity'],
+            'options'  => json_encode([
+                'size'       => $validated['size'],
+                'color'      => $validated['color'],
+                'unit_price' => $unitPrice, // prix figé au moment de l'ajout
+            ]),
+        ]);
+
+        return response()->json(['message' => 'Ajouté au panier']);
+    }
+
 }

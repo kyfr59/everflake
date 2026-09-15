@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
+@section('title', 'Everflake — Votre titre SEO')
+
+@section(
+    'description',
+    'Découvrez Everflake et nos services. Une description claire de votre activité en quelques mots.'
+)
+
 @section('content')
+
+    @include('partials.nav')
 
 <div class="container">
 
@@ -39,6 +48,35 @@
                 <option value="white">Blanc</option>
             </select>
 
+            @if($options->isNotEmpty())
+
+        <h2>Options</h2>
+
+        @if($options->isNotEmpty())
+            <h2>Options</h2>
+@foreach($options as $option)
+
+    <label>
+        <input
+            type="radio"
+            name="frame"
+            value="{{ $option->id }}"
+        >
+
+        {{ $option->label }}
+
+        @if($option->price_modifier > 0)
+            (+{{ number_format($option->price_modifier / 100, 2, ',', ' ') }} €)
+        @endif
+    </label>
+
+    <br>
+
+@endforeach
+        @endif
+
+    @endif
+
             <p>
                 Prix :
                 <strong id="price">19,90 €</strong>
@@ -66,5 +104,68 @@
     </a>
 
 </div>
+
+@if($product->active && $product->stock > 0)
+
+   <script>
+    async function computePrice() {
+
+        const selectedFrame = document.querySelector(
+            'input[name="frame"]:checked'
+        );
+
+        const quantity = document.getElementById('quantity');
+
+        const response = await fetch(
+            "{{ route('products.price', $product) }}",
+            {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+
+                body: JSON.stringify({
+                    option_id: selectedFrame
+                        ? selectedFrame.value
+                        : null,
+
+                    quantity: quantity
+                        ? quantity.value
+                        : 1
+                })
+            }
+        );
+
+        if (!response.ok) {
+            console.error('Erreur lors du calcul du prix');
+            return;
+        }
+
+        const data = await response.json();
+
+
+                document.getElementById('price').textContent =
+    data.total_price + ' €';
+    }
+
+    // Quand une option est sélectionnée
+    document
+        .querySelectorAll('input[name="frame"]')
+        .forEach(function (radio) {
+            radio.addEventListener('change', computePrice);
+        });
+
+    // Quand la quantité change
+    const quantity = document.getElementById('quantity');
+
+    if (quantity) {
+        quantity.addEventListener('input', computePrice);
+    }
+</script>
+
+@endif
 
 @endsection
