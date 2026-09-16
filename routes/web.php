@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\CurrencyController;
 
 // Page d'accueil
 Route::get('/', function (Request $request) {
@@ -23,7 +24,13 @@ Route::group([
     Route::get('/contact', [ContactController::class, 'index'])->name('contact');
     Route::get('/about', [AboutController::class, 'index'])->name('about');
 
-    Route::resource('products', ProductController::class);
+    Route::resource('collection', ProductController::class)
+        ->only(['index', 'show'])
+        ->parameters(['collection' => 'product'])
+        ->names([
+            'index' => 'products.index',
+            'show'  => 'products.show',
+        ]);
 
     Route::get('/cart', [CartController::class, 'index'])
         ->name('cart.index');
@@ -42,6 +49,9 @@ Route::group([
 
     Route::post('/products/{product}/price', [ProductController::class, 'computePrice'])
     ->name('products.price');
+
+    Route::get('/currency/switch/{code}', [CurrencyController::class, 'switch'])
+    ->name('currency.switch');
 
     Route::get('/dashboard', function () {
         return view('home');

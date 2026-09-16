@@ -1,67 +1,80 @@
-<h1>Mon panier</h1>
+@php use Illuminate\Support\Number; @endphp
 
-@if(session('success'))
-    <div>
-        {{ session('success') }}
-    </div>
-@endif
+@extends('layouts.app')
 
-@if(session('error'))
-    <div>
-        {{ session('error') }}
-    </div>
-@endif
+@section('title', 'Everflake — Votre titre SEO')
 
-@if($cart && $cart->items->count())
+@section(
+    'description',
+    'Découvrez Everflake et nos services. Une description claire de votre activité en quelques mots.'
+)
 
-    @foreach($cart->items as $item)
+@section('content')
 
-        <article>
-            <h2>
-                {{ $item->itemable->name }}
-            </h2>
+    @include('partials.nav')
 
-            <p>
-                Prix :
-                {{ number_format($item->price / 100, 2, ',', ' ') }} €
-            </p>
+    <h1 class="text-3xl">Mon panier</h1>
 
-            <p>
-                Quantité : {{ $item->quantity }}
-            </p>
+    @if(session('success'))
+        <div>{{ session('success') }}</div>
+    @endif
 
-            <form
-                method="POST"
-                action="{{ route('cart.remove', $item) }}"
-            >
-                @csrf
-                @method('DELETE')
+    @if(session('error'))
+        <div>{{ session('error') }}</div>
+    @endif
 
-                <button type="submit">
-                    Supprimer
-                </button>
-            </form>
-        </article>
+    @if($cart && $cart->items->count())
 
-        <hr>
+        @php $total = 0; @endphp
 
-    @endforeach
+        @foreach($cart->items as $item)
 
-@else
+            @php
+                $unitPrice = $item->getOption('unit_price');
+                $convertedUnitPrice = (int) round($unitPrice * $item->exchange_rate);
+                $lineTotal = $convertedUnitPrice * $item->quantity;
+                $total += $lineTotal;
 
-    <p>Votre panier est vide.</p>
+                $formattedUnit = Number::currency($convertedUnitPrice / 100, $item->currency);
+                $formattedLine = Number::currency($lineTotal / 100, $item->currency);
+            @endphp
 
-@endif
+            <article>
+                <h2>{{ $item->itemable->name }}</h2>
 
-<form method="POST" action="{{ route('cart.clear') }}">
-    @csrf
-    @method('DELETE')
+                <p>Prix unitaire : {{ $formattedUnit }}</p>
+                <p>Quantité : {{ $item->quantity }}</p>
+                <p>Sous-total : {{ $formattedLine }}</p>
 
-    <button type="submit">
-        Vider le panier
-    </button>
-</form>
+                <form method="POST" action="{{ route('cart.remove', $item) }}">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit">Supprimer</button>
+                </form>
+            </article>
 
-<a href="{{ route('products.index') }}">
-    Continuer mes achats
-</a>
+            <hr>
+
+        @endforeach
+
+        <p>
+            <strong>
+                Total : {{ Number::currency($total / 100, $cart->items->first()->currency) }}
+            </strong>
+        </p>
+
+    @else
+        <p>Votre panier est vide.</p>
+    @endif
+
+    @if($cart && $cart->items->count())
+        <form method="POST" action="{{ route('cart.clear') }}">
+            @csrf
+            @method('DELETE')
+            <button type="submit">Vider le panier</button>
+        </form>
+    @endif
+
+    <br /><a href="{{ route('products.index') }}">Continuer mes achats</a><br /><br />
+
+@endsection

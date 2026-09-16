@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
+use App\Services\CurrencyService;
 
 class ProductController extends Controller
 {
@@ -14,7 +15,30 @@ class ProductController extends Controller
     {
         $products = Product::latest()->paginate(12);
 
-        return view('products.index', compact('products'));
+        $currencyService = app(CurrencyService::class);
+        $displayCurrency = session('currency', 'CHF');
+
+        $products->getCollection()->transform(function ($product) use (
+            $currencyService,
+            $displayCurrency
+        ) {
+            $convertedPrice = $currencyService->convert(
+                $product->price,
+                $displayCurrency
+            );
+
+            $product->formatted_price = $currencyService->format(
+                $convertedPrice,
+                $displayCurrency
+            );
+
+            return $product;
+        });
+
+        return view('products.index', compact(
+            'products',
+            'displayCurrency'
+        ));
     }
 
     public function create(): View
@@ -45,8 +69,11 @@ class ProductController extends Controller
     public function show(Product $product): View
     {
         $options = $product->options()->get();
+        $displayCurrency = session('currency', 'CHF');
+        $convertedPrice = app(CurrencyService::class)->convert($product->price, $displayCurrency);
+        $formatted = app(CurrencyService::class)->format($convertedPrice, $displayCurrency);
 
-        return view('products.show', compact('product', 'options'));
+        return view('products.show', compact('product', 'options', 'convertedPrice', 'formatted', 'displayCurrency'));
     }
 
     public function edit(Product $product): View
@@ -117,8 +144,10 @@ public function computePrice(Request $request, Product $product)
     /**
      * Ajoute le produit configuré au panier.
      */
+    /*
     public function addToCart(Request $request, Product $product)
     {
+        dd("dd");
         $validated = $request->validate([
             'size'     => 'required|string',
             'color'    => 'required|string',
@@ -129,20 +158,26 @@ public function computePrice(Request $request, Product $product)
             'size'  => $validated['size'],
             'color' => $validated['color'],
         ]);
+dd($unitPrice);
+        $displayCurrency = session('currency', 'CHF');
+        $exchangeRate = \App\Models\Currency::where('code', $displayCurrency)->value('exchange_rate') ?? 1;
 
         $cart = Cart::query()->firstOrCreate(['user_id' => auth()->id()]);
 
         $cart->storeItem([
-            'itemable' => $product,
-            'quantity' => $validated['quantity'],
-            'options'  => json_encode([
+            'itemable'               => $product,
+            'quantity'               => $validated['quantity'],
+            'currency'               => $displayCurrency,
+            'exchange_rate_snapshot' => $exchangeRate,
+            'options'                => json_encode([
                 'size'       => $validated['size'],
                 'color'      => $validated['color'],
-                'unit_price' => $unitPrice, // prix figé au moment de l'ajout
+                'unit_price' => $unitPrice, // prix de base, avant conversion devise
             ]),
         ]);
 
         return response()->json(['message' => 'Ajouté au panier']);
     }
+        */
 
 }

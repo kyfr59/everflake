@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Binafy\LaravelCart\Models\Cart;
+use App\Services\CartResolver;
+use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class CartController extends Controller
 {
+    public function __construct(private CartResolver $cartResolver)
+    {
+    }
+
     /**
      * Récupère le panier courant : utilisateur connecté OU invité (via cookie).
      * Ne crée PAS de panier si aucun n'existe (utilisé pour l'affichage).
@@ -54,13 +60,13 @@ class CartController extends Controller
 
     public function index(): View
     {
-        $cart = $this->resolveCart();
+        $cart = $this->cartResolver->resolve();
         $items = $cart ? $cart->items()->get() : collect();
 
         return view('cart.index', compact('cart', 'items'));
     }
 
-    public function add(Product $product): RedirectResponse
+    public function add(Request $request, Product $product): RedirectResponse
     {
         if (!$product->active) {
             return back()->with('error', 'Produit indisponible.');
@@ -72,9 +78,32 @@ class CartController extends Controller
 
         [$cart, $newCookie] = $this->resolveOrCreateCart();
 
+        // @TODO : A ajuster
+        $validated = $request->validate([
+            'size'     => 'required|string',
+            'color'    => 'required|string',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $unitPrice = $product->getPriceWithOptions([
+            'size'  => $validated['size'],
+            'color' => $validated['color'],
+        ]);
+
+        $displayCurrency = session('currency', 'CHF');
+        $exchangeRate = \App\Models\Currency::where('code', $displayCurrency)->value('exchange_rate') ?? 1;
+
+
         $cart->storeItem([
-            'itemable' => $product,
-            'quantity' => 1,
+            'itemable'      => $product,
+            'quantity'      => $validated['quantity'],
+            'currency'      => $displayCurrency,
+            'exchange_rate' => $exchangeRate,   // ✅ corrigé (plus de "_snapshot")
+            'options'       => json_encode([
+                'size'       => $validated['size'],
+                'color'      => $validated['color'],
+                'unit_price' => $unitPrice,
+            ]),
         ]);
 
         $response = back()->with('success', 'Produit ajouté au panier.');
@@ -94,7 +123,7 @@ class CartController extends Controller
 
     public function remove($item): RedirectResponse
     {
-        $cart = $this->resolveCart();
+        $cart = $this->cartResolver->resolve();
         abort_if(! $cart, 404);
 
         $cartItem = $cart->items()->whereKey($item)->firstOrFail();
@@ -105,7 +134,7 @@ class CartController extends Controller
 
     public function clear(): RedirectResponse
     {
-        $cart = $this->resolveCart();
+        $cart = $this->cartResolver->resolve();
 
         if ($cart) {
             $cart->items()->delete();

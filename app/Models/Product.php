@@ -23,6 +23,11 @@ class Product extends Model implements Cartable
         'active' => 'boolean',
     ];
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+
     public function getPrice(): float
     {
         return $this->price;

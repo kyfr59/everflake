@@ -16,7 +16,7 @@
 
         {{-- Menu desktop --}}
         <div class="hidden lg:flex gap-8 items-center">
-            <a href="#collection" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="collection">Collection</a>
+            <a href="{{ route('products.index') }}" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors">Collection</a>
             <a href="#customize" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="customize">Customize</a>
             <a href="{{ route('about') }}" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('about') }}">{{ __('messages.about') }}</a>
             <a href="{{ route('contact') }}" class="font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('contact') }}">Contact</a>
@@ -25,7 +25,17 @@
         {{-- Liens de droite --}}
         <div class="flex items-center gap-3">
 
-            {{-- Barre de langue --}}
+            {{-- Devise --}}
+            <div class="hidden lg:flex items-center gap-3 pr-5 border-r border-ef-border-grey">
+                @foreach(\App\Models\Currency::all() as $currency)
+                    <a href="{{ route('currency.switch', $currency->code) }}"
+                        class="{{ session('currency', 'CHF') === $currency->code ? 'active' : '' }} lang-btn font-mono font-bold text-[13px] uppercase cursor-pointer text-ef-link-grey hover:text-ef-link-black transition-colors duration-200"">
+                            {{ $currency->code }}
+                    </a>
+                @endforeach
+            </div>
+
+            {{-- Langue --}}
             <div class="hidden lg:flex items-center gap-3 pr-5 border-r border-ef-border-grey">
                 @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
                     <a
@@ -40,10 +50,18 @@
             </div>
 
             {{-- Panier --}}
-            <button id="cart-btn" aria-label="{{ __('messages.cart_empty') }}" class="flex mr-2 relative p-2 lg:-mt-2 {{-- !! --}} text-ef-link-black hover:text-ef-link-red-hover transition-colors cursor-pointer">
+            <a
+                href="{{ route('cart.index') }}"
+                aria-label="{{ $cartCount > 0 ? __('messages.cart_items', ['count' => $cartCount]) : __('messages.cart_empty') }}"
+                class="flex mr-2 relative p-2 lg:-mt-2 text-ef-link-black hover:text-ef-link-red-hover transition-colors cursor-pointer"
+            >
                 <x-icons.cart />
-                {{-- <span id="cart-badge" class="absolute -top-0.5 -right-0.5 bg-[#c8102e] text-white text-[10px] font-mono font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">1</span>--}}
-            </button>
+                @if($cartCount > 0)
+                    <span id="cart-badge" class="absolute -top-0.5 -right-0.5 bg-[#c8102e] text-white text-[10px] font-mono font-bold rounded-full min-w-[16px] h-4 flex items-center justify-center px-1">
+                        {{ $cartCount }}
+                    </span>
+                @endif
+            </a>
 
             {{-- Connexion / déconnexion --}}
             @auth
