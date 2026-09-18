@@ -19,7 +19,16 @@ use Filament\Tables\Columns\ImageColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use BackedEnum;
-
+use App\Enums\Orientation;
+use App\Enums\Canton;
+use App\Enums\Support;
+use App\Enums\Meteo;
+use App\Enums\TypeCristal;
+use App\Enums\ClasseMorphologique;
+use App\Enums\Structure;
+use App\Enums\Symetrie;
+use App\Enums\Ramification;
+use App\Enums\DegreRiming;
 
 class ProductResource extends Resource
 {
@@ -38,16 +47,18 @@ class ProductResource extends Resource
                     Tab::make('Photo')
                         ->schema([
                             TextInput::make('name')
+                                ->label('Nom')
                                 ->required()
                                 ->maxLength(255),
                             TextInput::make('price')
                                 ->label('Prix')
+                                ->helperText('En centimes de CHF')
                                 ->numeric()
                                 ->required()
                                 ->minValue(0)
                                 ->default(280),
                             FileUpload::make('photo')
-                                //->image()
+                                ->image()
                                 ->required()
                                 ->directory('cristaux')
                                 ->columnSpanFull(),
@@ -57,25 +68,27 @@ class ProductResource extends Resource
                             Grid::make(3)
                                 ->schema([
                                     TextInput::make('largeur')
+                                        ->label('Largeur de l\'image')
                                         ->numeric()
                                         ->suffix('px')
                                         ->required(),
                                     TextInput::make('longueur')
+                                        ->label('Hauteur de l\'image')
                                         ->numeric()
                                         ->suffix('px')
                                         ->required(),
                                     TextInput::make('nombre_pixels')
+                                        ->label('Nombre de mégapixels')
                                         ->numeric()
                                         ->required(),
                                 ]),
                             Select::make('orientation')
-                                ->options([
-                                    'portrait' => 'Portrait',
-                                    'paysage' => 'Paysage',
-                                    'carre' => 'Carré',
-                                ])
+                                ->label('Orientation')
+                                ->options(Orientation::class)
                                 ->required(),
                             TextInput::make('reference')
+                                ->label('Référence')
+                                ->helperText('Exemple : SF-260112-1526-001')
                                 ->required()
                                 ->maxLength(255),
                         ]),
@@ -85,26 +98,30 @@ class ProductResource extends Resource
                             Grid::make(2)
                                 ->schema([
                                     TextInput::make('latitude')
+                                        ->helperText('Exemple : 46.5558844 (7 chiffres après la virgule')
                                         ->numeric(),
                                     TextInput::make('longitude')
+                                        ->helperText('Exemple : 7.4587454 (7 chiffres après la virgule')
                                         ->numeric(),
                                 ]),
                             TextInput::make('altitude')
                                 ->numeric()
                                 ->suffix('m'),
-                            TextInput::make('canton')
-                                ->maxLength(255),
+                            Select::make('canton')
+                                ->label('Canton')
+                                ->options(Canton::class),
                             TextInput::make('commune')
                                 ->maxLength(255),
                             TextInput::make('lieu_dit')
                                 ->maxLength(255),
-                            TextInput::make('support')
-                                ->maxLength(255),
+                            Select::make('support')
+                                ->label('Support')
+                                ->options(Support::class),
                             Toggle::make('eclairage')
                                 ->label('Éclairage artificiel'),
-                            TextInput::make('meteo')
-                                ->maxLength(255)
-                                ->columnSpanFull(),
+                            Select::make('meteo')
+                                ->label('Météo')
+                                ->options(Meteo::class),
                             Grid::make(3)
                                 ->schema([
                                     TextInput::make('temperature')
@@ -132,19 +149,23 @@ class ProductResource extends Resource
                         ->schema([
                             Grid::make(2)
                                 ->schema([
-                                    TextInput::make('type_cristal')
-                                        ->maxLength(255),
-                                    TextInput::make('classe_morphologique')
-                                        ->maxLength(255),
+                                    Select::make('type_cristal')
+                                        ->label('Type de cristal')
+                                        ->options(TypeCristal::class),
+                                    Select::make('classe_morphologique')
+                                        ->label('Classe morphologique')
+                                        ->options(ClasseMorphologique::class),
                                 ]),
-                            TextInput::make('structure')
-                                ->maxLength(255),
+                            Select::make('structure')
+                                    ->label('Structure')
+                                    ->options(Structure::class),
                             Grid::make(3)
                                 ->schema([
                                     TextInput::make('nombre_branches')
                                         ->numeric(),
-                                    TextInput::make('symetrie')
-                                        ->maxLength(255),
+                                    Select::make('symetrie')
+                                        ->label('Symetrie')
+                                        ->options(Symetrie::class),
                                     TextInput::make('nombre_axes')
                                         ->numeric(),
                                 ]),
@@ -160,24 +181,20 @@ class ProductResource extends Resource
                                     Toggle::make('presence_givre'),
                                     Toggle::make('presence_gouttelettes'),
                                     Toggle::make('presence_fonte'),
+                                    Toggle::make('fractures_deformations')
+                                        ->label(__('Fractures / déformations'))
                                 ]),
-                            Textarea::make('fractures_deformations')
-                                ->columnSpanFull(),
-                            Textarea::make('ramification')
-                                ->columnSpanFull(),
+                            Select::make('ramification')
+                                ->label('Ramifications')
+                                ->options(Ramification::class),
                             Grid::make(2)
                                 ->schema([
                                     TextInput::make('taille_approximative')
                                         ->numeric()
                                         ->suffix('mm'),
                                     Select::make('degre_riming')
-                                        ->options([
-                                            0 => '0 — aucun',
-                                            1 => '1 — léger',
-                                            2 => '2 — modéré',
-                                            3 => '3 — fort',
-                                            4 => '4 — givré (graupel)',
-                                        ]),
+                                        ->label('Degré de riming')
+                                        ->options(DegreRiming::class),
                                 ]),
                         ]),
                 ]),

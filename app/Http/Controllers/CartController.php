@@ -72,9 +72,12 @@ class CartController extends Controller
             return back()->with('error', 'Produit indisponible.');
         }
 
+        // @TODO : ) gérer en fonction de la dispo du cadre
+        /*
         if ($product->stock < 1) {
             return back()->with('error', 'Produit en rupture de stock.');
         }
+            */
 
         [$cart, $newCookie] = $this->resolveOrCreateCart();
 

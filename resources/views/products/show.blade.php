@@ -22,11 +22,6 @@
         Prix : {{ $formatted }}
     </p>
 
-    <p>
-        Stock : {{ $product->stock }}
-    </p>
-
-    @if($product->active && $product->stock > 0)
         <form
             method="POST"
             action="{{ route('cart.add', $product) }}"
@@ -66,10 +61,6 @@
                 @endforeach
             @endif
 
-            <p>
-                Prix :
-                <strong id="price">19,90 €</strong>
-            </p>
 
             <label>
                 Quantité :
@@ -91,9 +82,6 @@
 </button>
 
         </form>
-    @else
-        <p>Produit indisponible.</p>
-    @endif
 
     <br>
 
@@ -102,7 +90,6 @@
     </a>
 </div>
 
-@if($product->active && $product->stock > 0)
     <script>
         async function computePrice() {
             const selectedFrame = document.querySelector(
@@ -154,6 +141,6 @@
             quantity.addEventListener('input', computePrice);
         }
     </script>
-@endif
+
 
 @endsection

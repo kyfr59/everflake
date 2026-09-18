@@ -2,8 +2,17 @@
 
 namespace App\Models;
 
+use App\Enums\Canton;
+use App\Enums\ClasseMorphologique;
+use App\Enums\Meteo;
+use App\Enums\Orientation;
+use App\Enums\Structure;
+use App\Enums\Support;
+use App\Enums\Symetrie;
+use App\Enums\TypeCristal;
+use App\Enums\Ramification;
+use App\Enums\DegreRiming;
 use Binafy\LaravelCart\Cartable;
-use App\Models\ProductOption;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -14,7 +23,6 @@ class Product extends Model implements Cartable
         'slug',
         'description',
         'price',
-        'stock',
         'active',
         'nom',
         'horodatage',
@@ -52,30 +60,48 @@ class Product extends Model implements Cartable
         'presence_gouttelettes',
         'presence_fonte',
         'fractures_deformations',
-        'ramification',
         'taille_approximative',
         'degre_riming',
     ];
 
     protected $casts = [
         'price' => 'integer',
-        'stock' => 'integer',
         'active' => 'boolean',
         'horodatage' => 'datetime',
+
         'longueur' => 'integer',
         'largeur' => 'integer',
         'nombre_pixels' => 'integer',
+
         'latitude' => 'decimal:7',
         'longitude' => 'decimal:7',
         'altitude' => 'decimal:2',
+
         'pression_atmospherique' => 'decimal:2',
         'luminosite_ambiante' => 'decimal:2',
         'temperature' => 'decimal:1',
         'humidite_relative' => 'decimal:2',
         'point_de_rosee' => 'decimal:1',
+
         'eclairage' => 'boolean',
+
+        // Enums
+        'orientation' => Orientation::class,
+        'canton' => Canton::class,
+        'support' => Support::class,
+        'meteo' => Meteo::class,
+        'type_cristal' => TypeCristal::class,
+        'classe_morphologique' => ClasseMorphologique::class,
+        'structure' => Structure::class,
+        'symetrie' => Symetrie::class,
+        'ramification' => Ramification::class,
+        'degre_riming' => DegreRiming::class,
+
+        // Valeurs numériques
         'nombre_branches' => 'integer',
         'nombre_axes' => 'integer',
+
+        // Caractéristiques booléennes
         'presence_dendrites' => 'boolean',
         'presence_plaquettes' => 'boolean',
         'presence_colonnes' => 'boolean',
@@ -83,8 +109,9 @@ class Product extends Model implements Cartable
         'presence_givre' => 'boolean',
         'presence_gouttelettes' => 'boolean',
         'presence_fonte' => 'boolean',
+        'fractures_deformations' => 'boolean',
+
         'taille_approximative' => 'decimal:2',
-        'degre_riming' => 'integer',
     ];
 
     public function getRouteKeyName(): string

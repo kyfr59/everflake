@@ -42,9 +42,6 @@
                 {{ $product->formatted_price }}
             </p>
 
-            <p>
-                Stock : {{ $product->stock }}
-            </p>
 
         </article>
 
