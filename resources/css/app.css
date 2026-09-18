@@ -53,11 +53,11 @@
     }
 }
 
-.lang-btn {
+.lang-btn, .currency-btn {
     @apply relative pb-1 font-mono font-bold text-[13px] uppercase cursor-pointer;
 }
 
-.lang-btn::after {
+.lang-btn::after, .currency-btn:after {
     content: '';
     @apply block h-[2px] bg-[#c8102e] origin-left scale-x-0 transition-transform duration-200;
 }
@@ -67,6 +67,14 @@
 }
 
 .lang-btn.active::after {
+    @apply scale-x-100;
+}
+
+.currency-btn.active {
+    @apply text-[#111];
+}
+
+.currency-btn.active::after {
     @apply scale-x-100;
 }
 

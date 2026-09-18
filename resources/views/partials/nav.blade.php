@@ -29,7 +29,7 @@
             <div class="hidden lg:flex items-center gap-3 pr-5 border-r border-ef-border-grey">
                 @foreach(\App\Models\Currency::all() as $currency)
                     <a href="{{ route('currency.switch', $currency->code) }}"
-                        class="{{ session('currency', 'CHF') === $currency->code ? 'active' : '' }} lang-btn font-mono font-bold text-[13px] uppercase cursor-pointer text-ef-link-grey hover:text-ef-link-black transition-colors duration-200"">
+                        class="{{ session('currency', 'CHF') === $currency->code ? 'active' : '' }} currency-btn font-mono font-bold text-[13px] uppercase cursor-pointer text-ef-link-grey hover:text-ef-link-black transition-colors duration-200">
                             {{ $currency->code }}
                     </a>
                 @endforeach
@@ -119,19 +119,38 @@
         <a href="{{ route('about') }}" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('about') }}">{{ __('messages.about') }}</a>
         <a href="{{ route('contact') }}" class="block font-medium text-sm text-ef-link-black hover:text-ef-link-red-hover transition-colors" data-target="{{ route('contact') }}">Contact</a>
 
-        <div class="flex items-center gap-4 pt-4 border-t border-ef-border-grey">
-            <x-icons.globe class="w-4 h-4 text-gray-400 -mt-2" />
-            @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                <a
+       <div class="flex items-center justify-between pt-4 border-t border-ef-border-grey">
+
+    {{-- Langues --}}
+    <div class="flex items-center gap-4">
+        <x-icons.globe class="w-4 h-4 text-gray-400 -mt-2" />
+
+        @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+            <a
                 href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}"
                 class="{{ app()->getLocale() == $localeCode ? 'active' : '' }} lang-btn font-mono font-bold text-[13px] uppercase cursor-pointer text-grey"
                 aria-label="{{ ucfirst($properties['native']) }}"
                 lang="{{ $localeCode }}"
-                hreflang="{{ $localeCode }}">
-                    {{ $localeCode }}
-                </a>
-            @endforeach
-        </div>
+                hreflang="{{ $localeCode }}"
+            >
+                {{ $localeCode }}
+            </a>
+        @endforeach
+    </div>
+
+    {{-- Devises --}}
+    <div class="flex items-center gap-3">
+        @foreach(\App\Models\Currency::all() as $currency)
+            <a
+                href="{{ route('currency.switch', $currency->code) }}"
+                class="{{ session('currency', 'CHF') === $currency->code ? 'active' : '' }} currency-btn font-mono font-bold text-[13px] uppercase cursor-pointer text-ef-link-grey hover:text-ef-link-black transition-colors duration-200"
+            >
+                {{ $currency->code }}
+            </a>
+        @endforeach
+    </div>
+
+</div>
 
         @guest
             <a href="{{ route('login') }}" class="ef-button-red">
