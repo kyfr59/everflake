@@ -36,12 +36,22 @@ class ProductResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-shopping-bag';
 
-    protected static ?string $navigationLabel = 'Cristaux';
+    protected static ?string $navigationLabel = 'Flocons';
+
+    public static function getModelLabel(): string
+    {
+        return 'flocon';
+    }
+
+    public static function getPluralModelLabel(): string
+    {
+        return 'flocons';
+    }
 
     public static function form(Schema $schema): Schema
     {
         return $schema->components([
-            Tabs::make('Product')
+            Tabs::make('Flocons')
                 ->columnSpanFull()
                 ->tabs([
                     Tab::make('Photo')
