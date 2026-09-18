@@ -9,6 +9,7 @@ use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 use App\Http\Controllers\CurrencyController;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 // Page d'accueil
 Route::get('/', function (Request $request) {

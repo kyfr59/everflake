@@ -37,11 +37,17 @@ class ProductResource extends Resource
                 ->tabs([
                     Tab::make('Photo')
                         ->schema([
-                            TextInput::make('nom')
+                            TextInput::make('name')
                                 ->required()
                                 ->maxLength(255),
+                            TextInput::make('price')
+                                ->label('Prix')
+                                ->numeric()
+                                ->required()
+                                ->minValue(0)
+                                ->default(280),
                             FileUpload::make('photo')
-                                ->image()
+                                //->image()
                                 ->required()
                                 ->directory('cristaux')
                                 ->columnSpanFull(),
@@ -184,7 +190,7 @@ class ProductResource extends Resource
             ->columns([
                 ImageColumn::make('photo')
                     ->square(),
-                TextColumn::make('nom')
+                TextColumn::make('name')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('horodatage')

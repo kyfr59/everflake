@@ -5,6 +5,7 @@ namespace App\Models;
 use Binafy\LaravelCart\Cartable;
 use App\Models\ProductOption;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model implements Cartable
 {
@@ -89,6 +90,15 @@ class Product extends Model implements Cartable
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    protected static function booted(): void
+    {
+        static::creating(function (Product $product) {
+            if (empty($product->slug)) {
+                $product->slug = Str::slug($product->name);
+            }
+        });
     }
 
     public function getPrice(): float
